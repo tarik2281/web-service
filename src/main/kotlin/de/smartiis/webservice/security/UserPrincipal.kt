@@ -16,7 +16,7 @@ class UserPrincipal(val user: User) : UserDetails {
 
   override fun isCredentialsNonExpired(): Boolean = true
 
-  override fun getPassword(): String = ""
+  override fun getPassword(): String = user.password
 
   override fun isAccountNonExpired(): Boolean = true
 

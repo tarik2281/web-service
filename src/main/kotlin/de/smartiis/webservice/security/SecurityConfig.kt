@@ -1,7 +1,5 @@
 package de.smartiis.webservice.security
 
-import de.smartiis.webservice.security.AppUserDetailsService
-import de.smartiis.webservice.security.RestAuthenticationEntryPoint
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -11,7 +9,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import org.springframework.security.crypto.password.NoOpPasswordEncoder
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 
 @Configuration
@@ -23,24 +21,27 @@ class SecurityConfig @Autowired constructor(
 ) : WebSecurityConfigurerAdapter() {
 
   @Bean
-  fun passwordEncoder(): PasswordEncoder = NoOpPasswordEncoder.getInstance()
+  fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 
   override fun configure(http: HttpSecurity) {
     http
         .csrf().disable()
-        .exceptionHandling()
-        .authenticationEntryPoint(restAuthenticationEntryPoint)
-        .and()
-        .formLogin()
-        .loginProcessingUrl("/api/login")
-        .successHandler { _, _, _ -> println("login") }
-        .failureHandler { _, response, _ -> response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.reasonPhrase) }
-        .and()
-        .logout()
-        .logoutUrl("/api/logout")
-        .logoutSuccessHandler { _, _, _ -> }
-        .invalidateHttpSession(true)
-        .deleteCookies("JSESSIONID")
+        .exceptionHandling {
+          it.authenticationEntryPoint(restAuthenticationEntryPoint)
+        }
+        .formLogin {
+          it.loginProcessingUrl("/api/login")
+          it.successHandler { _, _, _ -> }
+          it.failureHandler { _, response, _ ->
+            response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.reasonPhrase)
+          }
+        }
+        .logout {
+          it.logoutUrl("/api/logout")
+          it.logoutSuccessHandler { _, _, _ -> }
+          it.invalidateHttpSession(true)
+          it.deleteCookies("JSESSIONID")
+        }
   }
 
   override fun configure(auth: AuthenticationManagerBuilder) {

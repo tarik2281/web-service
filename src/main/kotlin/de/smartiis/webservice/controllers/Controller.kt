@@ -6,23 +6,21 @@ import de.smartiis.webservice.getLogger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 data class RegisterData(
     val userName: String,
     val password: String
-//    val address: String,
-//    val city: String,
-//    val state: String,
-//    val postalCode: String
 )
 
 @RestController
-@RequestMapping("/", produces = ["application/json"])
+@RequestMapping("/api", produces = ["application/json"])
 class Controller @Autowired constructor(private val userRepository: UserRepository) {
 
   private val logger = getLogger()
 
+  @PreAuthorize("isAuthenticated()")
   @GetMapping("/")
   fun get() = ResponseEntity(userRepository.findAll(), HttpStatus.OK)
 
