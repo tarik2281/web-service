@@ -1,5 +1,6 @@
 package de.smartiis.webservice.security
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -17,7 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 class SecurityConfig @Autowired constructor(
     private val userDetailsService: AppUserDetailsService,
-    private val restAuthenticationEntryPoint: RestAuthenticationEntryPoint
+    private val restAuthenticationEntryPoint: RestAuthenticationEntryPoint,
+    private val objectMapper: ObjectMapper
 ) : WebSecurityConfigurerAdapter() {
 
   @Bean
@@ -31,7 +33,10 @@ class SecurityConfig @Autowired constructor(
         }
         .formLogin {
           it.loginProcessingUrl("/api/login")
-          it.successHandler { _, _, _ -> }
+          it.successHandler { _, response, authentication ->
+            response.contentType = "application/json"
+            objectMapper.writeValue(response.writer, (authentication.principal as UserPrincipal).user)
+          }
           it.failureHandler { _, response, _ ->
             response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.reasonPhrase)
           }

@@ -15,6 +15,6 @@ class DatabaseInitializer @Autowired constructor(
 ) : ApplicationRunner {
 
   override fun run(args: ApplicationArguments?) {
-    userRepository.save(User(userName = "hallo", password = encoder.encode("hallo")))
+    userRepository.save(User(emailAddress = "hallo@hallo.de", password = encoder.encode("hallo")))
   }
 }

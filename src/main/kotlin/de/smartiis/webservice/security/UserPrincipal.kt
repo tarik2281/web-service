@@ -12,7 +12,7 @@ class UserPrincipal(val user: User) : UserDetails {
 
   override fun isEnabled(): Boolean = true
 
-  override fun getUsername(): String = user.userName
+  override fun getUsername(): String = user.emailAddress
 
   override fun isCredentialsNonExpired(): Boolean = true
 
