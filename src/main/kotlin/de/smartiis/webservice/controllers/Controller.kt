@@ -27,6 +27,13 @@ class Controller @Autowired constructor(private val userService: UserService) {
   }
 
   @PreAuthorize("isAuthenticated()")
+  @PostMapping("/user/update")
+  fun updateUser(@RequestBody data: User) {
+    val principal = SecurityContextHolder.getContext().authentication.principal as UserPrincipal
+    userService.update(principal.user, data)
+  }
+
+  @PreAuthorize("isAuthenticated()")
   @GetMapping("/user/me")
   fun getCurrentUser(): ResponseEntity<User> {
     val principal = SecurityContextHolder.getContext().authentication.principal as UserPrincipal
