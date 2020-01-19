@@ -1,6 +1,5 @@
 package de.smartiis.webservice.entities
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import java.sql.Date
 import javax.persistence.Entity
