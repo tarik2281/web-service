@@ -12,11 +12,6 @@ import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 
-data class ChangePasswordData(
-    val currentPassword: String,
-    val newPassword: String
-)
-
 fun getCurrentUserPrincipal() = SecurityContextHolder.getContext().authentication.principal as UserPrincipal
 
 @RestController
@@ -28,7 +23,6 @@ class Controller @Autowired constructor(
 
   private val logger = getLogger()
 
-  //  @PreAuthorize("isAuthenticated()")
   @GetMapping("/")
   fun get() = ResponseEntity(userService.getAll(), HttpStatus.OK)
 
@@ -42,12 +36,6 @@ class Controller @Autowired constructor(
   fun updateUser(@RequestBody data: User) {
     val principal = SecurityContextHolder.getContext().authentication.principal as UserPrincipal
     userService.update(principal.user, data)
-  }
-
-  @PreAuthorize("isAuthenticated()")
-  @PostMapping("/user/change-password", consumes = ["application/json"])
-  fun changePassword(@RequestBody data: ChangePasswordData) {
-    userService.changePassword(getCurrentUserPrincipal().user, data.currentPassword, data.newPassword)
   }
 
   @PreAuthorize("isAuthenticated()")

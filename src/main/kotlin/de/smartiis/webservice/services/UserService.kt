@@ -3,8 +3,6 @@ package de.smartiis.webservice.services
 import de.smartiis.webservice.SecureIdGenerator
 import de.smartiis.webservice.entities.User
 import de.smartiis.webservice.exceptions.EmailAlreadyInUseException
-import de.smartiis.webservice.exceptions.WrongPasswordException
-import de.smartiis.webservice.getLogger
 import de.smartiis.webservice.repositories.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -52,14 +50,5 @@ class UserService @Autowired constructor(
     currentUser.postalCode = updateData.postalCode
 
     userRepository.save(currentUser)
-  }
-
-  fun changePassword(currentUser: User, currentPassword: String, newPassword: String) {
-    if (passwordEncoder.matches(currentPassword, currentUser.password)) {
-      currentUser.password = passwordEncoder.encode(newPassword)
-      userRepository.save(currentUser)
-    } else {
-      throw WrongPasswordException()
-    }
   }
 }
