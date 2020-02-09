@@ -63,6 +63,7 @@ class DatabaseInitializer @Autowired constructor(
     productRepository.save(Product(
         idString = "smarttub",
         title = "SmartTub",
+        overviewImage = "assets/WerbephotoSmartTub2.png",
         overviewDescription = "Die intelligente Badewannenarmatur mit integrierter Badezusatzdosierung und vielen weiteren Features"
     ))
 
@@ -72,7 +73,7 @@ class DatabaseInitializer @Autowired constructor(
         title = "SmartTub",
         cartTitle = "SmartTub",
         price = 49.99,
-        images = listOf("assets/WerbephotoSmartTub.png", "assets/Funktionsbeschreibung1.PNG", "assets/Funktionsbeschreibung2 (alt2).PNG", "assets/Funktionsbeschreibung3.PNG"),
+        images = listOf("assets/WerbephotoSmartTub2.png", "assets/WerbephotoSmartTub.png", "assets/Funktionsbeschreibung1.PNG", "assets/Funktionsbeschreibung2 (alt2).PNG", "assets/Funktionsbeschreibung3.PNG"),
         shortDescription = "Die intelligente Badewannenarmatur bietet zahlreiche Features",
         features = listOf("Bedienung per Touch",
             "Fernsteuerung per App",
@@ -119,6 +120,7 @@ class DatabaseInitializer @Autowired constructor(
     productRepository.save(Product(
         idString = "smartscent",
         title = "SmarTscent",
+        overviewImage = "assets/cherry.png",
         overviewDescription = "Der Badezusatz passend zu deinem SmartTub in verschiedenen Sorten"
     ))
 
@@ -182,6 +184,22 @@ class DatabaseInitializer @Autowired constructor(
             "Eintauchen und entspannen")
     ))
 
+    productRepository.save(Product(
+        idString = "hub",
+        title = "SmarTIIS Hub",
+        overviewImage = "assets/SmarTIIS Hub_transparent.png",
+        overviewDescription = "Die Intelligenz hinter deinem SmartHome"
+    ))
+
+    productVariantRepository.save(ProductVariant(
+        id = SecureIdGenerator.next(),
+        productId = "hub",
+        title = "SmarTIIS Hub",
+        cartTitle = "SmarTIIS Hub",
+        price = 29.99,
+        shortDescription = "Die Intelligenz hinter deinem SmartHome",
+        images = listOf("assets/SmarTIIS Hub_transparent.png", "assets/PairingScreen.png", "assets/ScreenMyDevices.png")
+    ))
 
 //    productRepository.save(Product(
 //        idString = "smarttub",

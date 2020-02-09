@@ -9,6 +9,7 @@ data class Product (
     @Id
     var idString: String = "",
     var title: String = "",
+    var overviewImage: String ="",
     var overviewDescription: String = "",
     @OneToMany(targetEntity = ProductVariant::class, mappedBy = "productId")
     var variants: List<ProductVariant> = mutableListOf()
