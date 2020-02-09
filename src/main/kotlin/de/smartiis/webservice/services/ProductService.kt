@@ -11,5 +11,5 @@ class ProductService @Autowired constructor(
 ) {
   fun getAll() = productRepository.findAll()
 
-  fun getById(id: Int) = productRepository.findByIdOrNull(id)
+  fun getById(id: String) = productRepository.findByIdOrNull(id)
 }

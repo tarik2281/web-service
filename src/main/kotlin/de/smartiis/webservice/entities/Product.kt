@@ -1,17 +1,15 @@
 package de.smartiis.webservice.entities
 
-import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
+import javax.persistence.OneToMany
 
 @Entity
 data class Product (
     @Id
-    var id: Int = 0,
+    var idString: String = "",
     var title: String = "",
-    var thumbnailUrl: String = "",
-    var shortDescription: String = "",
-    @Column(columnDefinition = "varchar(max)")
-    var longDescription: String = "",
-    var price: Double = 0.0
+    var overviewDescription: String = "",
+    @OneToMany(targetEntity = ProductVariant::class, mappedBy = "productId")
+    var variants: List<ProductVariant> = mutableListOf()
 )
