@@ -46,7 +46,19 @@ class Controller @Autowired constructor(
   @PostMapping("/user/update")
   fun updateUser(@RequestBody data: User) {
     val principal = SecurityContextHolder.getContext().authentication.principal as UserPrincipal
-    userService.update(principal.user, data)
+    userService.updateContactData(principal.user, data)
+  }
+
+  @PreAuthorize("isAuthenticated()")
+  @PostMapping("/user/updateShippingAddress")
+  fun updateShippingAddress(@RequestBody data: User) {
+
+  }
+
+  @PreAuthorize("isAuthenticated()")
+  @PostMapping("/user/deleteAccount")
+  fun deleteAccount(@RequestBody password: String) {
+
   }
 
   @PreAuthorize("isAuthenticated()")

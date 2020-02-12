@@ -34,22 +34,30 @@ class UserService @Autowired constructor(
     userRepository.save(user)
   }
 
-  fun update(currentUser: User, updateData: User) {
+  fun updateContactData(currentUser: User, updateData: User) {
     if (currentUser.emailAddress != updateData.emailAddress &&
         userRepository.existsByEmailAddress(updateData.emailAddress))
       throw EmailAlreadyInUseException()
 
-    currentUser.address = updateData.address
-    currentUser.birthday = updateData.birthday
-    currentUser.city = updateData.city
-    currentUser.country = updateData.country
-    currentUser.sex = updateData.sex
-    currentUser.emailAddress = updateData.emailAddress
-    currentUser.firstName = updateData.firstName
-    currentUser.lastName = updateData.lastName
-    currentUser.newsletter = updateData.newsletter
-    currentUser.phoneNumber = updateData.phoneNumber
-    currentUser.postalCode = updateData.postalCode
+    if (!updateData.emailAddress.isNullOrBlank()) {
+      currentUser.emailAddress = updateData.emailAddress
+    }
+
+    if (!updateData.firstName.isNullOrBlank()) {
+      currentUser.emailAddress = updateData.emailAddress
+    }
+
+    if (!updateData.lastName.isNullOrBlank()) {
+      currentUser.emailAddress = updateData.emailAddress
+    }
+
+    if (!updateData.sex.isNullOrBlank()) {
+      currentUser.emailAddress = updateData.emailAddress
+    }
+
+    if (!updateData.phoneNumber.isNullOrBlank()) {
+      currentUser.emailAddress = updateData.emailAddress
+    }
 
     userRepository.save(currentUser)
   }
