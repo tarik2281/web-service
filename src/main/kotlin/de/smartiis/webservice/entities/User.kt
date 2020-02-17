@@ -45,5 +45,15 @@ data class User(
     var useDualAddress: Boolean = true,
     @Column(columnDefinition = "varchar(max)")
     @Convert(converter = AddressConverter::class)
-    var billingAddress: Address? = null
+    var billingAddress: Address = Address()
+)
+
+
+data class RegisterUserData(
+    var emailAddress: String = "",
+    var newPassword: String = "",
+    var firstName: String = "",
+    var lastName: String = "",
+    var sex: String = "",
+    var birthday: Date = Date(0)
 )

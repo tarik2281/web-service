@@ -1,6 +1,7 @@
 package de.smartiis.webservice
 
 import de.smartiis.webservice.entities.*
+import de.smartiis.webservice.repositories.OrderRepository
 import de.smartiis.webservice.repositories.ProductRepository
 import de.smartiis.webservice.repositories.ProductVariantRepository
 import de.smartiis.webservice.repositories.UserRepository
@@ -17,6 +18,7 @@ class DatabaseInitializer @Autowired constructor(
     private val userRepository: UserRepository,
     private val productRepository: ProductRepository,
     private val productVariantRepository: ProductVariantRepository,
+    private val orderRepository: OrderRepository,
     private val encoder: PasswordEncoder
 ) : ApplicationRunner {
 
@@ -37,6 +39,7 @@ class DatabaseInitializer @Autowired constructor(
             "testCountry"
         )))
 
+
     productRepository.save(Product(
         idString = "smarttub",
         title = "SmartTub",
@@ -45,7 +48,7 @@ class DatabaseInitializer @Autowired constructor(
     ))
 
     productVariantRepository.save(ProductVariant(
-        id = SecureIdGenerator.next(),
+        id = 1,
         productId = "smarttub",
         title = "SmartTub",
         cartTitle = "SmartTub",
@@ -176,6 +179,14 @@ class DatabaseInitializer @Autowired constructor(
         price = 29.99,
         shortDescription = "Die Intelligenz hinter deinem SmartHome",
         images = listOf("assets/SmarTIIS Hub_transparent.png", "assets/PairingScreen.png", "assets/ScreenMyDevices.png")
+    ))
+
+
+    orderRepository.save(OrderC(
+        1, 0, "a", "a", "a", "a", Date(0), "", Address(), true, Address(),
+        mutableListOf(OrderEntry(
+            0, 1, 1, 1, 49.99
+        ))
     ))
   }
 }

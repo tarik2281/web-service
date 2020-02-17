@@ -1,5 +1,6 @@
 package de.smartiis.webservice.entities
 
+import java.util.*
 import javax.persistence.Entity
 import javax.persistence.Id
 
@@ -7,8 +8,8 @@ import javax.persistence.Id
 data class SupportTicket (
   @Id
   var id: Int = 0,
-  var userName: String? = null,
+  var creationDate: Date = Date(0),
+  var name: String? = null,
   var emailAddress: String = "",
-  var category: String = "",
-  var description: String = ""
+  var message: String = ""
 )

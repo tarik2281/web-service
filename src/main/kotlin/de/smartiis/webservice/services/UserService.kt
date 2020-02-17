@@ -1,10 +1,10 @@
 package de.smartiis.webservice.services
 
 import de.smartiis.webservice.SecureIdGenerator
+import de.smartiis.webservice.entities.RegisterUserData
 import de.smartiis.webservice.entities.User
 import de.smartiis.webservice.exceptions.EmailAlreadyInUseException
 import de.smartiis.webservice.exceptions.WrongPasswordException
-import de.smartiis.webservice.getLogger
 import de.smartiis.webservice.repositories.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -18,7 +18,7 @@ class UserService @Autowired constructor(
 
   fun getAll(): List<User> = userRepository.findAll()
 
-  fun register(user: User) {
+  fun register(user: RegisterUserData) {
     if (userRepository.existsByEmailAddress(user.emailAddress))
       throw EmailAlreadyInUseException()
 
@@ -27,39 +27,30 @@ class UserService @Autowired constructor(
       id = SecureIdGenerator.next()
     } while (userRepository.existsById(id))
 
-    // TODO: validation
-    user.id = id
-    user.password = passwordEncoder.encode(user.password)
+    val result = User(id, user.emailAddress,
+        passwordEncoder.encode(user.newPassword),
+        user.sex, user.firstName, user.lastName, user.birthday)
 
-    userRepository.save(user)
+    userRepository.save(result)
   }
 
-  fun updateContactData(currentUser: User, updateData: User) {
+  fun update(currentUser: User, updateData: User) {
     if (currentUser.emailAddress != updateData.emailAddress &&
         userRepository.existsByEmailAddress(updateData.emailAddress))
       throw EmailAlreadyInUseException()
 
-    if (!updateData.emailAddress.isNullOrBlank()) {
-      currentUser.emailAddress = updateData.emailAddress
-    }
+    updateData.id = currentUser.id
+    updateData.password = currentUser.password
 
-    if (!updateData.firstName.isNullOrBlank()) {
-      currentUser.emailAddress = updateData.emailAddress
-    }
+    userRepository.save(updateData)
+  }
 
-    if (!updateData.lastName.isNullOrBlank()) {
-      currentUser.emailAddress = updateData.emailAddress
+  fun deleteUser(currentUser: User, currentPassword: String) {
+    if (passwordEncoder.matches(currentPassword, currentUser.password)) {
+      userRepository.delete(currentUser)
+    } else {
+      throw WrongPasswordException()
     }
-
-    if (!updateData.sex.isNullOrBlank()) {
-      currentUser.emailAddress = updateData.emailAddress
-    }
-
-    if (!updateData.phoneNumber.isNullOrBlank()) {
-      currentUser.emailAddress = updateData.emailAddress
-    }
-
-    userRepository.save(currentUser)
   }
 
   fun changePassword(currentUser: User, currentPassword: String, newPassword: String) {
