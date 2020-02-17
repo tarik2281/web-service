@@ -1,7 +1,7 @@
 package de.smartiis.webservice.controllers
 
+import de.smartiis.webservice.RegisterUserData
 import de.smartiis.webservice.entities.OrderC
-import de.smartiis.webservice.entities.RegisterUserData
 import de.smartiis.webservice.entities.SupportTicket
 import de.smartiis.webservice.entities.User
 import de.smartiis.webservice.getLogger

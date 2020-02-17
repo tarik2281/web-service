@@ -1,7 +1,7 @@
 package de.smartiis.webservice.services
 
+import de.smartiis.webservice.RegisterUserData
 import de.smartiis.webservice.SecureIdGenerator
-import de.smartiis.webservice.entities.RegisterUserData
 import de.smartiis.webservice.entities.User
 import de.smartiis.webservice.exceptions.EmailAlreadyInUseException
 import de.smartiis.webservice.exceptions.WrongPasswordException
@@ -16,7 +16,7 @@ class UserService @Autowired constructor(
     private val passwordEncoder: PasswordEncoder
 ) {
 
-  fun getAll(): List<User> = userRepository.findAll()
+  fun getAll(): Iterable<User> = userRepository.findAll()
 
   fun register(user: RegisterUserData) {
     if (userRepository.existsByEmailAddress(user.emailAddress))

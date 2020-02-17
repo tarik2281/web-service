@@ -1,19 +1,9 @@
 package de.smartiis.webservice.entities
 
+import de.smartiis.webservice.Address
+import de.smartiis.webservice.AddressConverter
 import java.util.*
 import javax.persistence.*
-
-@Entity
-data class OrderEntry(
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    var id: Int = 0,
-    var orderId: Int = 0,
-    @Column(name = "product_variant_id")
-    var productVariantId: Int = 0,
-    var amount: Int = 0,
-    var price: Double = 0.0
-)
 
 @Entity
 data class OrderC(
@@ -26,11 +16,11 @@ data class OrderC(
     var lastName: String = "",
     var birthday: Date = Date(),
     var phoneNumber: String = "",
-    @Column(columnDefinition = "varchar(max)")
+    @Column(columnDefinition = "TEXT")
     @Convert(converter = AddressConverter::class)
     var shippingAddress: Address = Address(),
     var useDualAddress: Boolean = true,
-    @Column(columnDefinition = "varchar(max)")
+    @Column(columnDefinition = "TEXT")
     @Convert(converter = AddressConverter::class)
     var billingAddress: Address = Address(),
     @OneToMany(targetEntity = OrderEntry::class, mappedBy = "orderId", cascade = [CascadeType.ALL])

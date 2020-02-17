@@ -18,14 +18,17 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.data:spring-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+
+//    implementation("org.springframework.data:spring-data-jpa")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.hibernate:hibernate-core:5.4.10.Final")
 
-//    runtimeOnly("mysql:mysql-connector-java")
-    runtimeOnly("com.h2database:h2:1.4.200")
+    implementation("mysql:mysql-connector-java:8.0.19")
+//    implementation("com.h2database:h2:1.4.200")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
